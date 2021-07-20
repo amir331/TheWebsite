@@ -110,12 +110,13 @@
 </ul>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
+<li><a href="#table-of-contents">Table of contents</a></li>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#how-to-use">How to use</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#customizing-wikibase">Customizing Wikibase</a></li>
 <li><a href="#important-scripts">Important Scripts</a></li>
-<li><a href="#systems.py">Systems.py</a></li>
+<li><a href="#systemspy">Systems.py</a></li>
 <li><a href="#wikibase-log-in">Wikibase Log-in</a></li>
 <li><a href="#creating-properties">Creating Properties</a></li>
 <li><a href="#data-retrieval">Data Retrieval</a></li>
@@ -124,8 +125,9 @@
 <li><a href="#useful-docker-commands">Useful Docker Commands</a></li>
 <li><a href="#creating-backups">Creating Backups</a></li>
 <li><a href="#sources">Sources</a></li>
-<li><a href="#acknowledgments">Acknowledgments</a></li>
-<li><a href="#further-research">Further Research </a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#further-research">Further Research</a></li>
+<li><a href="#todo-for-documentation">TODO for Documentation</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
 <p>A Repository that specializes itself in creating a fresh Wikibase instance filled with relevant PubMed metadata and MeSH Headings from the NLM Database.
@@ -218,10 +220,26 @@ batch('wikibase-property', [p27, p28, p29, p30])
 </code></pre>
 <h3 id="data-retrieval">Data Retrieval</h3>
 <blockquote>
-<p>Description Here, Data Retrieval from PubMed, Enrichment with SciSpacy:<br />
+<p>Automatically creates a csv-file with all used MeSHTerms,their description and tree number and a list of all articles found to the queryterm:<br />
 <a href="https://github.com/AH-Tran/ID_Wikibase/blob/main/scripts/data_retrieval.py">data_retrieval.py</a></p>
 </blockquote>
-<pre><code class="language-python">
+<pre><code class="language-python">urllist = df['MeSHBrowserLink'].tolist()
+for i in urllist:
+    n = i
+    start = time.time()
+    driver = webdriver.Chrome(chrome_options=options)
+    driver.get(i)
+    time.sleep(3)
+    element = driver.find_elements_by_xpath('//a[contains(@id,&quot;treeNumber_&quot;)]')
+    elementlist = []
+    for i in element:
+        elementlist.append(i.text)
+    TNlist.append(elementlist)
+    end = time.time()
+    timelist.append(end-start)
+df['TreeNumbers'] = TNlist
+df.to_csv('meshtermlist.csv')
+return dicts
 </code></pre>
 <h3 id="creating-mesh-items">Creating MeSH Items</h3>
 <blockquote>
@@ -403,5 +421,5 @@ docker-compose up --no-deps -d wikibase
 
 <!--
 MkDocs version : 1.2.1
-Build Date UTC : 2021-07-20 18:36:26.031634+00:00
+Build Date UTC : 2021-07-20 23:41:58.800902+00:00
 -->
