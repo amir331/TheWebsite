@@ -23,7 +23,7 @@
     <body class="homepage">
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">Our Docs</a>
+                <a class="navbar-brand" href=".">My Docs</a>
 
                 <!-- Expanded navigation -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
@@ -57,6 +57,11 @@
               </ul>
             </li>
             
+            <li class="nav-item" data-level="2"><a href="#overview" class="nav-link">Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
             <li class="nav-item" data-level="2"><a href="#how-to-use" class="nav-link">How to use</a>
               <ul class="nav flex-column">
               </ul>
@@ -81,6 +86,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            
+            <li class="nav-item" data-level="2"><a href="#todo-for-documentation" class="nav-link">TODO for Documentation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
@@ -95,6 +105,7 @@
 </ul>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
+<li><a href="#overview">Overview</a></li>
 <li><a href="#how-to-use">How to use</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#customizing-wikibase">Customizing Wikibase</a></li>
@@ -107,6 +118,9 @@
 <li><a href="#acknowledgments">Acknowledgments</a></li>
 <li><a href="#further-research">Further Research </a></li>
 </ul>
+<h2 id="overview">Overview</h2>
+<p>A Repository that specializes itself in creating a fresh Wikibase instance filled with relevant PubMed metadata and MeSH Headings from the NLM Database.
+<img alt="image info" src="./doc/overview.PNG" /></p>
 <h2 id="how-to-use">How to use</h2>
 <h3 id="installation">Installation</h3>
 <pre><code>- Install &amp; Enable WSL2
@@ -216,6 +230,7 @@ docker-compose up --no-deps -d wikibase
 <li>Document new encountered Limits</li>
 <li>IR/NLP metrics on Abstracts</li>
 <li>MeSH Tree Hierarchy as Knowledge Graph Structure</li>
+<li>Accuracy on Enrichening Process</li>
 </ul>
 <h2 id="todo-for-documentation">TODO for Documentation</h2>
 <ul>
@@ -223,16 +238,13 @@ docker-compose up --no-deps -d wikibase
 <li>Knowledge Graph Structure with example Screenshots</li>
 <li>Data Retrieval Examples</li>
 <li>MeSH Examples</li>
-</ul>
-     </div>
+</ul></div>
             </div>
         </div>
 
         <footer class="col-md-12">
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-            <p>For more information please visit our code on Github and click <a href="https://github.com/AH-Tran/ID_Wikibase/">here</a>.</p>
-
         </footer>
         <script>
             var base_url = ".",
@@ -307,5 +319,5 @@ docker-compose up --no-deps -d wikibase
 
 <!--
 MkDocs version : 1.2.1
-Build Date UTC : 2021-06-28 17:58:06.718558+00:00
+Build Date UTC : 2021-07-20 14:34:34.292020+00:00
 -->
