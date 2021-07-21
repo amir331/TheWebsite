@@ -82,6 +82,11 @@
               </ul>
             </li>
             
+            <li class="nav-item" data-level="2"><a href="#performance" class="nav-link">Performance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
             <li class="nav-item" data-level="2"><a href="#sources" class="nav-link">Sources</a>
               <ul class="nav flex-column">
               </ul>
@@ -96,11 +101,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            
-            <li class="nav-item" data-level="2"><a href="#todo-for-documentation" class="nav-link">TODO for Documentation</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
         </ul>
     </div>
 </div></div>
@@ -112,6 +112,7 @@
 <li>Automated inserts into a fresh <a href="https://github.com/UB-Mannheim/RaiseWikibase">Raise-Wikibase</a> instance</li>
 <li>Scripts for automated property and item creation given a queryterm</li>
 <li>Scripts tested in a Windows system within a Ubuntu 20.04 terminal with Python 3.9.2</li>
+<li>The Documentation can also be read on the hosted <a href="https://amir331.github.io/TheWebsite/">GitHub Page</a></li>
 </ul>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
@@ -129,46 +130,58 @@
 <li><a href="#creating-pubmed-items">Creating PubMed Items</a></li>
 <li><a href="#useful-docker-commands">Useful Docker Commands</a></li>
 <li><a href="#creating-backups">Creating Backups</a></li>
+<li><a href="#performance">Performance</a></li>
 <li><a href="#sources">Sources</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#further-research">Further Research</a></li>
-<li><a href="#todo-for-documentation">TODO for Documentation</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
 <p>A Repository that specializes itself in creating a fresh Wikibase instance filled with relevant PubMed metadata and MeSH Headings from the NLM Database.
 <img alt="image info" src="Bild.png" /></p>
 <h2 id="knowledge-graph-structure">Knowledge Graph Structure</h2>
-<blockquote>
-<ul>
-<li>Knowledge graph on Wikibase is based on 2 types of entities</li>
-<li>First entity is "Pubmed Article" entity</li>
-<li>Second entity is "MeshTerm" entitiy (contains relevant information such as the "Mesh Heading", "Mesh ID", "Mesh URL" and "Scope Node")</li>
-<li>The 2 entities are connected semantically to each other via "Mesh ID"</li>
-</ul>
-</blockquote>
+<p>The Knowledge graph of this Wikibase instance is based on two type of entities: <br>
+- <strong>PubMed Articles</strong> <br>
+- <strong>MeSH Term Entities</strong>
+The two entities are connected to each other semantically via the shared "MeSH ID".
+<img alt="image info" src="Bild2.png" /></p>
 <h2 id="how-to-use">How to use</h2>
 <h3 id="installation">Installation</h3>
-<pre><code>- Install &amp; Enable WSL2
-- Install Docker
-- For Windows: Install Ubuntu Terminal &amp; Windows Terminal from Windows Store &amp; relevant libraries
-    - https://codefellows.github.io/setup-guide/
-- Create Directory
-- git clone https://github.com/UB-Mannheim/RaiseWikibase
+<p>For the Installation the following steps are required after cloning/forking this repository:<br />
+<strong>Install &amp; Enable WSL2</strong>  </p>
+<blockquote>
+<p>Microsoft Docs : <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a></p>
+</blockquote>
+<p><strong>Install Docker &amp;Docker Desktop</strong>  </p>
+<blockquote>
+<p>Docker Docs : <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></p>
+</blockquote>
+<p><strong>For Windows: Install Ubuntu Terminal</strong>  </p>
+<blockquote>
+<p>Ubuntu Docs : <a href="https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview">https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview</a></p>
+</blockquote>
+<p><strong>Creating Virtual Environment for Usage</strong></p>
+<pre><code>pip install virtualenv
+# Once Inside the Project Folder
+virtualenv env
+</code></pre>
+<p><strong>Further Instructions</strong></p>
+<pre><code>git clone https://github.com/UB-Mannheim/RaiseWikibase
 cd RaiseWikibase/
 sudo apt install default-libmysqlclient-dev
 pip3 install -e .
-- env.tmpl &gt; rename to '.env' and insert usernames/password
+env.tmpl &gt; rename to '.env' and insert usernames/password
     - passwords must be at least 10 characters long!
     - [WB_DB_USER], [WB_DB_NAME], [WB_ADMIN_USER] must be capitalized or ideally full cap in order to avoid db connection errors
 pip3 install -r requirements.txt
-- docker-compose up -d
+docker-compose up -d
 </code></pre>
 <h3 id="customizing-wikibase">Customizing Wikibase</h3>
+<p>With <a href="https://addshore.com/2018/09/wikibase-extensions-on-wikidata-org/">Extensions</a>, it is possible to customize the Wikibase Instance.</p>
 <pre><code>## Making Changes
 - LocalSettings.php.template
 ## Extensions
 - Download Extension in ./RaiseWikibase/extensions
-- Add Volume to docker-ompose.yml
+- Add Volume to docker-compose.yml
     - ./extensions/TemplateStyles:/var/www/html/extensions/TemplateStyles
 - Add Volume to LocalSettings.php.template
     -wfLoadExtension( 'TemplateStyles' );
@@ -178,6 +191,7 @@ pip3 install -r requirements.txt
     ];
 </code></pre>
 <h2 id="important-scripts">Important Scripts</h2>
+<p>The following sections introduces the scripts responsible for automated ingestion of a fresh Wikibase instance.</p>
 <h3 id="systemspy">Systems.py</h3>
 <blockquote>
 <p>Mainscript that executes all important scripts to sucessfully fill the Wikibase instance:<br />
@@ -286,48 +300,67 @@ return dicts
 <p>Automatically creates PubMed article items with retrieved metadata:<br />
 <a href="https://github.com/AH-Tran/ID_Wikibase/blob/main/scripts/create_items_wd.py">create_items_wd.py</a></p>
 </blockquote>
-<pre><code class="language-python">def upload_data(login_instance, config):
-    # load excel table to load into Wikibase
-    mydata = pd.read_csv(&quot;pubmed_data.csv&quot;)
-    for index, row in mydata.iterrows():
+<pre><code class="language-python">def upload_data(login_instance, config, metadata):
+    author_list = []
+    mesh_list = []
+    df = pd.read_csv('meshtermlist.csv')
+
+    for index in metadata:
+        # Get relevant Values from retrieved Metadata
+            PMID = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'PMID', '#text')
+            title = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'ArticleTitle')
+            pdate = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'ArticleDate', 'Day') + '.' + \
+                    safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'ArticleDate', 'Month') + '.' + \
+                    safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'ArticleDate', 'Year')
+            author_list = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'AuthorList', 'Author')
+            language = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'Article', 'Language')
+            mesh_list = safeget(index, 'PubmedArticleSet','PubmedArticle', 'MedlineCitation', 'MeshHeadingList', 'DescriptorName')
+
         ## Prepare the statements to be added
         item_statements = [] # all statements for one item
-        item_statements.append(wdi_core.WDString(mydata.loc[index].at['PubmedArticle_MedlineCitation_Article_ArticleTitle'], prop_nr=&quot;P11&quot;)) #title 
-        item_statements.append(wdi_core.WDString(mydata.loc[index].at['PubmedArticle_MedlineCitation_Article_AuthorList_Author_LastName'], prop_nr=&quot;P12&quot;)) #author
+        item_statements.append(wdi_core.WDString(PMID, prop_nr=&quot;P5&quot;)) #PMID
+        item_statements.append(wdi_core.WDString(title, prop_nr=&quot;P11&quot;)) #title 
+        item_statements.append(wdi_core.WDString(pdate, prop_nr=&quot;P14&quot;)) #publication date 
+        for a in author_list:
+                item_statements.append(wdi_core.WDString(str(safeget(a, 'LastName')+ ',' + safeget(a, 'ForeName')), prop_nr=&quot;P13&quot;)) #author name string
+        item_statements.append(wdi_core.WDString(language, prop_nr=&quot;P18&quot;)) #language
+        for m in mesh_list:
+            if ( df[df['MeSH Unique ID'] == safeget(m, '@UI')].index[0]):
+                r= df[df['MeSH Unique ID'] == safeget(m, '@UI')].index[0] + 1
+                entity_link = 'http://localhost:8181/wiki/Item:'+ 'Q' + str(r)
+                item_statements.append(wdi_core.WDItem(entity_link, prop_nr=&quot;P39&quot;))
 
         ## instantiate the Wikibase page, add statements, labels and descriptions
-        wbPage = wdi_core.WDItemEngine(data=item_statements, mediawiki_api_url=config.wikibase_url + &quot;/w/api.php&quot;)
-        wbPage.set_label(mydata.loc[index].at['PubmedArticle_MedlineCitation_Article_ArticleTitle'], lang=&quot;en&quot;)
-        wbPage.set_description(&quot;Article retrieved from PubMed&quot;, lang=&quot;en&quot;)
-
-        ## sanity check (debug)
-        pprint.pprint(wbPage.get_wd_json_representation())
+            wbPage = wdi_core.WDItemEngine(data=item_statements, mediawiki_api_url=config.wikibase_url + &quot;/w/api.php&quot;)
+            wbPage.set_label(title, lang=&quot;en&quot;)
+            wbPage.set_description(&quot;Article retrieved from PubMed&quot;, lang=&quot;en&quot;)
 
         ## write data to wikibase
-        wbPage.write(login_instance)
+            wbPage.write(login_instance)
 </code></pre>
 <h2 id="useful-docker-commands">Useful Docker Commands</h2>
-<blockquote>
 <p>Following Docker Commands can be of use when customizing and editing the Wikibase instance.</p>
+<p><strong>Stop Wikibase Docker</strong></p>
+<blockquote>
+<p>docker-compose down</p>
 </blockquote>
-<pre><code>### Stop Wikibase Docker
-docker-compose down
-### Remove uploaded Data &amp; run fresh Wikibase Instance
-sudo rm -rf mediawiki-*  query-service-data/ quickstatements-data/
+<p><strong>Remove uploaded Data &amp; run fresh Wikibase Instance</strong></p>
+<pre><code>sudo rm -rf mediawiki-*  query-service-data/ quickstatements-data/
 docker-compose up -d
-### Reload a single service (example: wikibase) to adopt new changes in settings
-docker-compose up --no-deps -d wikibase
+</code></pre>
+<p><strong>Reload a single service (example: wikibase) to adopt new changes in settings</strong></p>
+<pre><code>docker-compose up --no-deps -d wikibase
 </code></pre>
 <h3 id="creating-backups">Creating Backups</h3>
-<blockquote>
-<p>Volume Backups can bve made through these commands.</p>
-</blockquote>
-<pre><code>- Take snapshots of: docker-compose file, mounted files
-### Volume backup
-- docker run -v wikibase-registry_mediawiki-mysql-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup mediawiki-mysql-data_20190129
-- docker run -v wikibase-registry_mediawiki-images-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup mediawiki-images-data_20190129
-- docker run -v wikibase-registry_query-service-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup query-service-data_20190129
+<p>Volume backups and snapshots can be made through these commands.</p>
+<pre><code>docker run -v wikibase-registry_mediawiki-mysql-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup mediawiki-mysql-data_20190129
+docker run -v wikibase-registry_mediawiki-images-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup mediawiki-images-data_20190129
+docker run -v wikibase-registry_query-service-data:/volume -v /root/volumeBackups:/backup --rm loomchild/volume-backup backup query-service-data_20190129
 </code></pre>
+<h2 id="performance">Performance</h2>
+<p>Inspecting the Performance, we see a linear growth of time taken per Article Volume, averaging around <strong>1.88</strong> Article Insertions per second.</p>
+<img alt="image info" src="Bild3.png" />
+
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a></li>
@@ -336,24 +369,17 @@ docker-compose up --no-deps -d wikibase
 <li><a href="https://github.com/UB-Mannheim/RaiseWikibase">Raise-Wikibase</a></li>
 </ul>
 <h2 id="acknowledgements">Acknowledgements</h2>
+<p>Many thanks to <a href="https://github.com/UB-Mannheim/RaiseWikibase">UB-Mannheim</a> for providing the Raise Wikibase Repository, <a href="https://addshore.com/">Adam Shorland</a> for providing many resources when it comes to building and customizing Wikibase instances, and our professores for the continued guidance.</p>
 <h2 id="further-research">Further Research</h2>
-<ul>
-<li>Dynamically Adapt Property Creation with CSV </li>
-<li>Support for different formats than CSV</li>
-<li>Extract MeSH Entities from Wikidata</li>
-<li>Enter Wikibase into Wikibase Registry</li>
-<li>Authenticate Author Entity with either Scholia or </li>
-<li>Document new encountered Limits</li>
-<li>IR/NLP metrics on Abstracts</li>
-<li>MeSH Tree Hierarchy as Knowledge Graph Structure</li>
-<li>Accuracy on Enrichening Process</li>
-</ul>
-<h2 id="todo-for-documentation">TODO for Documentation</h2>
-<ul>
-<li>Knowledge Graph Structure with example Screenshots</li>
-<li>Data Retrieval Examples</li>
-<li>MeSH Examples</li>
-</ul></div>
+<p>Following Issues and possible points of further research interest have been identified
+- Dynamically Adapt Property Creation with CSV 
+- Extract MeSH Entities directly from Wikidata
+- Enter Wikibase into Wikibase Registry
+- Authenticate Author Entities with external databases such as Scholia
+- Calculate IR/NLP metrics on Abstracts
+- Implement <a href="https://www.ncbi.nlm.nih.gov/mesh/68003141">MeSH Tree Hierarchy</a> as Knowledge Graph Structure
+- Complement Knowledge Graph Structure with semantic connection between articles, author entities and affiliation entities
+- Measure Accuracy on MeSH Term Enrichening Process in [data_retrieval.py](https://github.com/AH-Tran/ID_Wikibase/blob/main/scripts/data_retrieval.py</p></div>
             </div>
         </div>
 
@@ -435,5 +461,5 @@ docker-compose up --no-deps -d wikibase
 
 <!--
 MkDocs version : 1.2.1
-Build Date UTC : 2021-07-21 10:20:41.444887+00:00
+Build Date UTC : 2021-07-21 12:17:33.984909+00:00
 -->
